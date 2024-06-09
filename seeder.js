@@ -10,13 +10,14 @@ const products2 = require("./data/pro");
 const connectDb = require("./config/config");
 
 dotenv.config();
-connectDb();
+//connectDb();
 
 const importData = async () => {
   try {
-    await Order.deleteMany();
-    await Product.deleteMany();
-    await User.deleteMany();
+    console.log("hello");
+    //await Order.deleteMany();
+    //await Product.deleteMany();
+   // await User.deleteMany();
     const createUser = await User.insertMany(users);
     const adminUser = createUser[0]._id;
     const sampleData = products.map((product) => {
@@ -48,10 +49,9 @@ const dataDestory = async () => {
   }
 };
 
-//importData()
-
 // if (process.argv[2] === "-d") {
 //   dataDestory();
 // } else {
 //   importData();
 // }
+module.exports = importData;

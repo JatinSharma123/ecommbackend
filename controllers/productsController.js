@@ -17,4 +17,41 @@ const getProduct = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getProducts, getProduct };
+
+
+
+// search product
+ const searchProductController = async (req, res) => {
+  try {
+    const { keyword } = req.params;
+   console.log(keyword);
+    const results = await Product
+      .find({
+        $or: [
+          { name: { $regex: keyword, $options: "i" } },
+          { description: { $regex: keyword, $options: "i" } },
+        ],
+      })
+      .select("-photo");
+      let len=results.length;
+      console.log(results);
+      if(len==0)
+       {
+           const pro=await Product.find({});
+       return     res.status(200).json(pro);
+       }
+       
+   
+    res.status(200).json(results);
+
+
+  } catch (error) {
+    console.log(error);
+    const pro=await Product.find({});
+          res.status(200).json(pro);
+  }
+};
+
+
+module.exports = { getProducts, getProduct ,searchProductController};
+

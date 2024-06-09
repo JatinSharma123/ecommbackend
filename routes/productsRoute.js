@@ -2,6 +2,7 @@ const express = require("express");
 const {
   getProduct,
   getProducts,
+  searchProductController,
 } = require("../controllers/productsController");
 const router = express.Router();
 
@@ -10,5 +11,7 @@ router.route("/products").get(getProducts);
 
 //GET ROUTE FOR SINGLE PRODUCT
 router.route("/products/:id").get(getProduct);
+router.route("/search/:keyword").get(searchProductController);
+
 
 module.exports = router;

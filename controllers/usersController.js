@@ -1,16 +1,18 @@
 const User = require("../models/UserModel");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
-
+const bcrypt = require("bcryptjs");
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
+  console.log("hello", name, email, password);
   const userExist = await User.findOne({ email });
   if (userExist) {
     res.status(400);
     throw new Error("User Already Exists!");
   }
+  const hashpassword = await bcrypt.hash(password, 10);
 
-  const user = await User.create({ name, email, password });
+  const user = await User.create({ name, email, password: hashpassword });
   if (user) {
     res.status(201).json({
       _id: user._id,
@@ -28,18 +30,24 @@ const registerUser = asyncHandler(async (req, res) => {
 const authController = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+  //console.log(user.password);
+  console.log(user);
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    console.log("hello");
+    return res.status(401).send({
+      success: false,
+      message: "Invlid username or password",
     });
-  } else {
-    res.status(401);
-    throw new Error("Invalid Email or Password");
   }
+  console.log("hello logged in successfully  ");
+  return res.json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    isAdmin: user.isAdmin,
+    token: generateToken(user._id),
+  });
 });
 
 const getUserProfile = asyncHandler(async (req, res) => {
@@ -73,7 +81,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       isAdmin: updateUser.isAdmin,
       token: generateToken(updateUser._id),
     });
-
   } else {
     res.status(404);
     throw new Error("user Not Found!");
