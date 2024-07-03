@@ -13,11 +13,11 @@ dotenv.config();
 //connectDb();
 
 const importData = async () => {
-  try {
+    try {
     console.log("hello");
-    //await Order.deleteMany();
-    //await Product.deleteMany();
-   // await User.deleteMany();
+    await Order.deleteMany();
+    await Product.deleteMany();
+   await User.deleteMany();
     const createUser = await User.insertMany(users);
     const adminUser = createUser[0]._id;
     const sampleData = products.map((product) => {

@@ -17,12 +17,34 @@ const getProduct = asyncHandler(async (req, res) => {
   }
 });
 
+const addProduct = asyncHandler(async (req, res) => {
+  
+        try 
+        {
+              console.log("in adding product");
+    
+      const {title,description,category,image,price}=req.body;
+          
+   const product=new Product({title,description,category,image,price});
+    
+      const p= await product.save();
+      console.log("added product");
+      console.log(p);
+         return res.status(200).send("Product added succcecsfully...............");
+  } catch (error) {
+      console.log("Error in adding:",error.message);
+      res.status(400).send("Error in adding prodcut");
+  }
+
+});
+
 
 
 
 // search product
  const searchProductController = async (req, res) => {
   try {
+    console.log("hello in searching");
     const { keyword } = req.params;
    console.log(keyword);
     const results = await Product
@@ -47,11 +69,11 @@ const getProduct = asyncHandler(async (req, res) => {
 
   } catch (error) {
     console.log(error);
+    console.log("heelo errror");
     const pro=await Product.find({});
           res.status(200).json(pro);
   }
 };
 
-
-module.exports = { getProducts, getProduct ,searchProductController};
+module.exports = { getProducts, getProduct ,searchProductController,addProduct};
 

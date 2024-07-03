@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const importData = require("../seeder");
 const URL = 'mongodb://0.0.0.0:27017/newecommerceapp';
-const newurl='mongodb://mongo:dotXcmBwARjqTKwkgDuGNZZqBVoEuNuS@monorail.proxy.rlwy.net:45539'
+const newurl='mongodb://mongo:plZnpWaTYbIiFmWPRvSKdjxypAESbpZM@monorail.proxy.rlwy.net:44423/?authSource=admin'
 //const URL="mongodb+srv://jatinsh123123:lEhk6lFLIIYnH3Zt@cluster0.5ypnfps.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 require("colors");
 const connectDb = async () => {

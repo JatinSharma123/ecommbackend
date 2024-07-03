@@ -22,7 +22,7 @@ const productSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+   
       ref: "User",
     },
     title: {
@@ -48,12 +48,12 @@ const productSchema = mongoose.Schema(
     reviews: [reviewSchema],
     rating: {
       type: Number,
-      required: true,
+      
       default: 0,
     },
     numReviews: {
       type: Number,
-      required: true,
+     
       defualt: 0,
     },
     price: {
@@ -63,7 +63,7 @@ const productSchema = mongoose.Schema(
     },
     countInStock: {
       type: Number,
-      required: true,
+    
       default: 0,
     },
   },
